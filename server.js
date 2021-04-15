@@ -2,6 +2,7 @@
 // where your node app starts
 
 // init project
+var navigator = require('browser-env');
 require('dotenv').config();
 var express = require('express');
 var app = express();
@@ -19,13 +20,24 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-
 // your first API endpoint... 
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+app.get("/api/whoami", (req, res) => {
+  const ip = req.ip
+  const language = req.headers["accept-language"];
+  const software = req.headers["user-agent"];
 
+  // console.log(language)
+
+  res.json({
+    "ipaddress": ip,
+    "language": language,
+    "software": software
+  })
+})
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
